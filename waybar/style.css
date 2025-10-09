@@ -1,0 +1,149 @@
+@import "../omarchy/current/theme/waybar.css";
+
+/* Palette hooks */
+@define-color accent #7aa2f7;
+@define-color glass_bg alpha(@background, 0.35);
+@define-color glass_border alpha(@foreground, 0.08);
+@define-color chip_fg alpha(@foreground, 0.92);
+@define-color chip_muted alpha(@foreground, 0.55);
+@define-color chip_hover alpha(@foreground, 0.12);
+@define-color warn #f9e2af;
+@define-color danger #f38ba8;
+
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    background: transparent;
+    color: @chip_fg;
+    font-family:
+        CaskaydiaMono Nerd Font,
+        monospace;
+    font-size: 12px;
+}
+
+/* Floating glass bar */
+window#waybar {
+    background-color: @glass_bg;
+    color: @chip_fg;
+    border: 1px solid @glass_border;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px alpha(@background, 0.7);
+    margin: 8px 10px 0 10px;
+}
+
+/* Layout nudges */
+.modules-left {
+    margin-left: 10px;
+}
+.modules-right {
+    margin-right: 10px;
+}
+
+/* Logos closer */
+#custom-omarchy {
+    margin-right: 2px;
+    padding-right: 6px;
+}
+#custom-arch {
+    margin-left: 0;
+    margin-right: 8px;
+    padding-left: 6px;
+}
+
+/* Workspaces: numeric tabs, accent underline on active */
+#workspaces {
+    padding: 0;
+    margin: 0 6px;
+}
+#workspaces button {
+    all: unset;
+    padding: 2px 7px;
+    margin: 0 2px;
+    border-radius: 6px;
+    color: @chip_fg;
+}
+#workspaces button:hover {
+    background: @chip_hover;
+}
+#workspaces button.empty {
+    color: @chip_muted;
+}
+#workspaces button.active {
+    color: @accent;
+    box-shadow: inset 0 -2px 0 0 alpha(@accent, 0.9);
+}
+
+/* Minimal, icon-first modules */
+#custom-update,
+#custom-screenrecording-indicator,
+#clock,
+#window,
+#cpu,
+#network,
+#pulseaudio,
+#bluetooth,
+#battery,
+#tray,
+#custom-expand-icon,
+#custom-ram,
+#custom-rom {
+    padding: 2px 8px;
+    margin: 0 6px;
+}
+
+/* Keep clock perfectly centered */
+#clock {
+    letter-spacing: 0.25px;
+}
+
+/* Focused app next to workspaces (subtle chip) */
+#window {
+    color: @chip_fg;
+    background: alpha(@foreground, 0.04);
+    border-radius: 6px;
+}
+
+/* Recording indicator: underline for attention */
+#custom-screenrecording-indicator.active {
+    color: @danger;
+    box-shadow: inset 0 -2px 0 0 alpha(@danger, 0.85);
+    border-radius: 4px;
+}
+
+/* States */
+#pulseaudio.muted {
+    color: @chip_muted;
+}
+#battery.warning {
+    color: @warn;
+}
+#battery.critical {
+    color: @danger;
+}
+#network.disconnected {
+    color: @chip_muted;
+}
+
+/* Tray */
+.tray-group-item {
+    padding: 0;
+    margin: 0 2px;
+}
+#tray {
+    padding: 2px 6px;
+}
+
+/* Tooltip */
+tooltip {
+    background-color: alpha(@background, 0.92);
+    color: @chip_fg;
+    border-radius: 9px;
+    border: 1px solid @glass_border;
+    padding: 6px 8px;
+}
+
+/* Quick hide */
+.hidden {
+    opacity: 0;
+}
