@@ -1,0 +1,181 @@
+{
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 0,
+
+  "modules-left": [
+    "custom/omarchy",
+    "custom/arch",
+    "hyprland/workspaces",
+    "hyprland/window",
+  ],
+  "modules-center": ["custom/screenrecording-indicator", "clock"],
+  "modules-right": [
+    "custom/update",
+    "custom/ram",
+    "custom/rom",
+    "cpu",
+    "network",
+    "pulseaudio",
+    "bluetooth",
+    "battery",
+    "group/tray-expander",
+  ],
+
+  "hyprland/workspaces": {
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "format": "{icon}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "default": "…",
+    },
+    "persistent-workspaces": { "1": [], "2": [], "3": [], "4": [], "5": [] },
+  },
+
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 36,
+    "separate-outputs": true,
+    "rewrite": {
+      "org.wezfurlong.wezterm": "WezTerm",
+      "code - .*": "VS Code",
+      "com\\.google\\.Chrome.*": "Chrome",
+      "firefox": "Firefox",
+      "footclient": "Foot",
+      "nvim": "Neovim",
+    },
+    "tooltip": true,
+  },
+
+  "custom/omarchy": {
+    "format": "<span font='omarchy'>\ue900</span>",
+    "on-click": "omarchy-menu",
+    "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space",
+  },
+
+  "custom/arch": {
+    "format": "",
+    "tooltip-format": "Arch Linux",
+    "on-click": "xdg-open https://archlinux.org",
+  },
+
+  "custom/update": {
+    "format": "",
+    "exec": "omarchy-update-available",
+    "on-click": "omarchy-launch-floating-terminal-with-presentation omarchy-update",
+    "tooltip-format": "Omarchy update available",
+    "signal": 7,
+    "interval": 3600,
+  },
+
+  "custom/ram": {
+    "format": "{}",
+    "interval": 5,
+    "on-click": "$TERMINAL -e btop",
+    "tooltip": true,
+    "exec": "awk '/MemTotal:/ {t=$2} /MemAvailable:/ {a=$2} END{u=t-a; printf \"RAM %.1fg · using %.1fg\", t/1048576, u/1048576}' /proc/meminfo",
+  },
+
+  "custom/rom": {
+    "format": "{}",
+    "interval": 30,
+    "on-click": "$TERMINAL -e btop",
+    "tooltip": true,
+    "exec": "df -B1 / | awk 'NR==2 {t=$2; u=$3; printf \"ROM %.1fg · using %.1fg\", t/1073741824, u/1073741824}'",
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": "󰍛",
+    "on-click": "$TERMINAL -e btop",
+  },
+
+  "clock": {
+    "format": "{:%I:%M %p}",
+    "format-alt": "{:%a  %d %b · W%V}",
+    "tooltip-format": "{:%A, %d %B %Y  %I:%M:%S %p %Z}",
+    "on-click-right": "omarchy-cmd-tzupdate",
+  },
+
+  "network": {
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format": "{icon}",
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰀂",
+    "format-disconnected": "󰤮",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 3,
+    "on-click": "omarchy-launch-wifi",
+  },
+
+  "battery": {
+    "format": "{icon}",
+    "format-discharging": "{icon}",
+    "format-charging": "{icon}",
+    "format-plugged": "",
+    "format-full": "󰁹",
+    "format-icons": {
+      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    },
+    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "interval": 5,
+    "on-click": "omarchy-menu power",
+    "states": { "warning": 20, "critical": 10 },
+  },
+
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-connected": "",
+    "tooltip-format": "Devices connected: {num_connections}",
+    "on-click": "env XDG_CURRENT_DESKTOP=GNOME blueberry",
+    "on-click-right": "blueman-manager",
+  },
+
+  "pulseaudio": {
+    "format": "{icon}",
+    "on-click": "$TERMINAL --class=Wiremix -e wiremix",
+    "on-click-right": "pamixer -t",
+    "tooltip-format": "Playing at {volume}%",
+    "scroll-step": 5,
+    "format-muted": "",
+    "format-icons": { "default": ["", "", ""] },
+  },
+
+  "group/tray-expander": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 600,
+      "children-class": "tray-group-item",
+    },
+    "modules": ["custom/expand-icon", "tray"],
+  },
+
+  "custom/expand-icon": { "format": "⋯", "tooltip": false },
+
+  "custom/screenrecording-indicator": {
+    "on-click": "omarchy-cmd-screenrecord",
+    "exec": "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh",
+    "signal": 8,
+    "return-type": "json",
+  },
+
+  "tray": { "icon-size": 13, "spacing": 10 },
+}
